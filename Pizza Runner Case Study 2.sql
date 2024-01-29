@@ -150,7 +150,7 @@ WHERE cancellation = 'NaN';
  FROM customer_orders;
 
  /* 2. How many unique customer orders were made? */
- SELECT COUNT(DISTINCT order_id) AS unique_orders
+ SELECT COUNT(DISTINCT order_id) AS unique_customer_orders
  FROM customer_orders;
 
  /* 3. How many successful orders were delivered by each runner? */
@@ -160,17 +160,17 @@ WHERE cancellation = 'NaN';
  GROUP BY runner_id;
 
  /* 4. How many of each type of pizza was delivered? */
-WITH joined_data AS(
-    SELECT 
-        r.cancellation, 
-        c.pizza_id
-    FROM runner_orders r
-    LEFT JOIN customer_orders c ON r.order_id = c.order_id
+WITH delivered_pizzas AS(
+    SELECT c.pizza_id, r.cancellation
+    FROM customer_orders c
+    LEFT JOIN runner_orders r ON c.order_id = r.order_id
     WHERE cancellation IS NULL
 )
-SELECT pizza_name, COUNT(*) AS total_deliveries
-FROM joined_data j
-LEFT JOIN pizza_names p ON j.pizza_id = p.pizza_id
+SELECT
+    pizza_name,
+    COUNT(*) AS total_deliveries
+FROM delivered_pizzas d
+LEFT JOIN pizza_names p ON p.pizza_id = d.pizza_id
 GROUP BY pizza_name;
 
 -- Correcting the pizza_name column 
@@ -193,10 +193,9 @@ single order? */
 WITH orders AS(
     SELECT 
         c.order_id,
-        COUNT(*) AS Number_of_pizzas_delivered
+        COUNT(*) AS number_of_pizzas_delivered
     FROM customer_orders c
-    JOIN runner_orders r
-    ON c.order_id = r.order_id
+    JOIN runner_orders r ON c.order_id = r.order_id
     WHERE cancellation IS NULL
     GROUP BY c.order_id
 )
@@ -223,19 +222,11 @@ GROUP BY customer_id;
 
 /* 8. How many pizzas were delivered that had both exclusions and 
 extra? */
-WITH extras AS(
-    SELECT 
-        c.order_id, 
-        exclusions, 
-        extras
-    FROM customer_orders c
-    JOIN runner_orders r
-    ON c.order_id = r.order_id
-    WHERE cancellation IS NULL
-)
-SELECT 
+SELECT
     SUM(CASE WHEN exclusions IS NOT NULL AND extras IS NOT NULL THEN 1 ELSE 0 END) AS with_exclusions_and_extras
-FROM extras;
+FROM runner_orders r
+JOIN customer_orders c ON c.order_id = r.order_id
+WHERE cancellation IS NULL;
 
 -- 9. What is the total volume of pizzas ordered for each hour of the day?
 SELECT 
@@ -361,23 +352,17 @@ ORDER BY common_exclusion DESC
 LIMIT 1;
 
 -- PART D. PRICING AND RATINGS
-/* 1. f a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were 
+/* 1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were 
 no charges for changes - how much money has Pizza Runner made 
 so far if there are no delivery fees? */
-WITH joined_data AS(
-    SELECT
-        c.order_id,
-        c.pizza_id,
-        pn.pizza_name
-    FROM customer_orders c 
-    JOIN runner_orders r ON c.order_id = r.order_id
-    JOIN pizza_names pn ON c.pizza_id = pn.pizza_id
-    WHERE cancellation IS NULL
-)
-SELECT 
+SELECT
     SUM(CASE WHEN pizza_name = 'Meat Lovers' THEN 12 ELSE 10 END) AS total_sales
-FROM joined_data;
+FROM customer_orders c
+JOIN runner_orders r ON r.order_id = c.order_id
+JOIN pizza_names p ON p.pizza_id = c.pizza_id
+WHERE cancellation IS NULL;
 
+/* What if there was an additional $1 charge for any pizza extras? Add cheese is $1 extra. */
 
 
 
