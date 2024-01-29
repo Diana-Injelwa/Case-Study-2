@@ -362,14 +362,6 @@ JOIN runner_orders r ON r.order_id = c.order_id
 JOIN pizza_names p ON p.pizza_id = c.pizza_id
 WHERE cancellation IS NULL;
 
-/* What if there was an additional $1 charge for any pizza extras? Add cheese is $1 extra. */
-
-
-
-
-
-
-
 
 
 
