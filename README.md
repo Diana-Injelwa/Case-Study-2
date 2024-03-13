@@ -1,5 +1,5 @@
 # Case-Study-2 Pizza Runner
-[In this case study,](https://8weeksqlchallenge.com/case-study-2/) we will utilize data across 6 tables to perform fundumental operations that will aid in optimizing business operation. The tables include;
+[In this case study,](https://8weeksqlchallenge.com/case-study-2/) we will utilize data across 6 tables to perform fundamental operations that will aid in optimizing business operation. The tables include;
 * runners table
 * customer_orders table
 * runner_orders table
