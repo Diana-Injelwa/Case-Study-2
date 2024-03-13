@@ -1,5 +1,5 @@
-# Case-Study-2
-I got to learn a lot while solving the questions in this Case Study. The data was stored in 6 tables including;
+# Case-Study-2 Pizza Runner
+[In this case study,](https://8weeksqlchallenge.com/case-study-2/) we will utilize data across 6 tables to perform fundumental operations that will aid in optimizing business operation. The tables include;
 * runners table
 * customer_orders table
 * runner_orders table
@@ -7,7 +7,6 @@ I got to learn a lot while solving the questions in this Case Study. The data wa
 * pizza_recipes table
 * pizza_toppings table
 
-CASE STUDY QUESTIONS
 
 The case study questions are broken up into 4 areas of focus including:
 * Pizza Metrics
@@ -15,4 +14,4 @@ The case study questions are broken up into 4 areas of focus including:
 * Ingredient Optimizations
 * Pricing and Ratings
 
-[You can check out this article where I documented each step](https://medium.com/@dianainjelwa/case-study-2-1734e97de600)
+[Here is an article providing step-by-step guides on how to tackle the questions](https://medium.com/@dianainjelwa/case-study-2-1734e97de600)
